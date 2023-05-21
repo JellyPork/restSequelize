@@ -10,12 +10,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Persona.belongsToMany(models.Propiedad,{through: models.Propietario, as: "propiedades"})
+      models.Persona.belongsToMany(models.Propiedad, { through: models.Propietario, as: "propiedades" });
+      models.Persona.hasOne(models.Arrendatario, { foreignKey: 'personaId' });
     }
   }
   Persona.init({
-    rfc: DataTypes.STRING,
-    nombre: DataTypes.STRING
+    rfc: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    nombre: {
+      type: DataTypes.STRING,
+
+    }
   }, {
     sequelize,
     modelName: 'Persona',
