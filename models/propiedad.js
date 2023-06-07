@@ -10,11 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Propiedad.belongsToMany(models.Persona, { through: models.Propietario, as: "propietarios" });
-      models.Propiedad.hasOne(models.Arrendatario, { foreignKey: 'propiedadId' });
+      models.Propiedad.hasMany(models.Propietario, { foreignKey: 'propiedadId', as: 'propietarios' });
+      models.Propiedad.belongsTo(models.Arrendatario, {
+        foreignKey: 'propiedadId',
+        as: 'arrendatario'
+      });
+
+
     }
   }
   Propiedad.init({
+
     cve_catastral: {
       type: DataTypes.STRING,
       allowNull: false

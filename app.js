@@ -1,29 +1,39 @@
-const models = require('./models');
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const https = require('https');
 
-const consultaPropiedades = async () => {
-    r = await models.Propiedad.findAll();
-    await r.forEach(p => {
-        console.log(p.dataValues);
-    });
-    models.sequelize.close();
-}
 
-const agregaPropietarios = async () => {
-    const prop = await models.Propiedad.findByPk(1);
-    //console.log(prop.dataValues);
-    const per1 = await models.Persona.findByPk(2);
-    const per2 = await models.Persona.findByPk(1);
-    //console.log(per.dataValues)
-    await prop.addPropietarios([per1,per2]);
-    const propietarios = await prop.getPropietarios();
-    await propietarios.forEach(p => {
-        console.log(p.nombre);
-        
-    });
+const arrendatariosRouter = require('./routers/arrendatarios');
+const personasRouter = require('./routers/personas');
+const propiedadesRouter = require('./routers/propiedades')
+const propietariosRouter = require('./routers/propietarios')
+
+
+const app = express();
+const port = 3000;
 
 
 
-    models.sequelize.close();
-}
+// Configurar middleware
+//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.json());
 
-agregaPropietarios();
+app.use('/propiedades', propiedadesRouter);
+app.use('/propietarios', propietariosRouter);
+app.use('/arrendatarios', arrendatariosRouter);
+app.use('/personas',personasRouter);
+
+
+
+
+
+// Iniciar servidor
+
+https.createServer({
+  cert: fs.readFileSync('server.cer'),
+  key: fs.readFileSync('server.key')
+},app).listen(port, () => {
+  console.log(`Servidor iniciado en https://localhost:${port}`);
+});

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('arrendatarios', {
+    await queryInterface.createTable('Arrendatarios', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,14 +14,18 @@ module.exports = {
         references: {
           model: 'Personas',
           key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       propiedadId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Personas',
+          model: 'Propiedades',
           key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('arrendatarios');
+    await queryInterface.dropTable('Arrendatarios');
   }
 };

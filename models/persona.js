@@ -10,8 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Persona.belongsToMany(models.Propiedad, { through: models.Propietario, as: "propiedades" });
-      models.Persona.hasOne(models.Arrendatario, { foreignKey: 'personaId' });
+      models.Persona.hasMany(models.Arrendatario, { foreignKey: 'personaId', as: 'arrendatarios' });
+      models.Persona.hasMany(models.Propietario, { foreignKey: 'personaId', as: 'propietarios' });
+
     }
   }
   Persona.init({
@@ -21,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     nombre: {
       type: DataTypes.STRING,
-
+      allowNull: false
     }
   }, {
     sequelize,

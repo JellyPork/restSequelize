@@ -1,6 +1,7 @@
 'use strict';
+
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Propietarios', {
       id: {
         allowNull: false,
@@ -10,17 +11,23 @@ module.exports = {
       },
       personaId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Personas',
           key: 'id'
-        } 
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       propiedadId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Propiedades',
           key: 'id'
-        } 
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -32,7 +39,8 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Propietarios');
   }
 };
