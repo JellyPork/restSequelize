@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    passwordHash: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false
     },
