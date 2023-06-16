@@ -59,9 +59,40 @@ const login = async (req, res) => {
   }
 };
 
+const jwtDecode = async (req, res) => {
+  try {
+    const { id, accessToken, email } = req.body;
+
+    // Verificar si el usuario existe en tu base de datos
+    const user = await User.findOne({ id: id });
+
+    if (user) {
+      // Usuario existente, generar el token JWT
+      jwt.verify(accessToken, secretKey, (err, decoded) => {
+        if (err) {
+          return res.status(401).json({ error: "Invalid access token" });
+        }
+        const jwtToken = jwt.sign({ id: id, email: email }, secretKey, { expiresIn });
+        res.json({ jwtToken });
+      });
+    } else {
+      // Nuevo usuario, registrar en la base de datos y generar el token JWT
+      const newUser = new User({ id: id, email: email });
+      await newUser.save();
+
+      const jwtToken = jwt.sign({ id: id, email: email }, secretKey, { expiresIn });
+      res.json({ jwtToken });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 
 
 module.exports = {
     signup,
     login,
+    jwtDecode,
 };

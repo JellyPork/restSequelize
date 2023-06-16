@@ -28,7 +28,7 @@ const getPropiedades = async (req, res) => {
 const getPropiedad = async (req, res) => {
   try {
     const propiedad = await models.Propiedad.findOne({
-      where: { cve_catastral: req.params.id }
+      where: { id: req.params.id }
     });
     res.json(propiedad);
   } catch (error) {
@@ -41,7 +41,7 @@ const updatePropiedad = async (req, res) => {
     const { cve, desc, dir } = req.body;
 
     const propiedad = await models.Propiedad.findOne({
-      where: { cve_catastral: req.params.id }
+      where: { id: req.params.id }
     });
 
     propiedad.set('cve_catastral', cve);
@@ -58,7 +58,7 @@ const updatePropiedad = async (req, res) => {
 const deletePropiedad = async (req, res) => {
   try {
     const propiedad = await models.Propiedad.findOne({
-      where: { cve_catastral: req.params.id }
+      where: { id: req.params.id }
     });
 
     await models.Arrendatario.destroy({
@@ -70,7 +70,7 @@ const deletePropiedad = async (req, res) => {
     });
 
     await models.Propiedad.destroy({
-      where: { cve_catastral: req.params.id }
+      where: { id: req.params.id }
     });
 
     res.json({ message: 'Propiedad eliminada exitosamente' });

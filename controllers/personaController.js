@@ -47,7 +47,7 @@ const updatePersona = async (req, res) => {
     try {
         const { rfc, nombre } = req.body;
         const persona = await models.Persona.findOne({
-            where: { rfc: req.params.id }
+            where: { id: req.params.id }
         });
         await persona.update({ rfc, nombre });
         res.json({ message: 'Actualizado exitosamente' });
@@ -59,7 +59,7 @@ const updatePersona = async (req, res) => {
 const deletePersona = async (req, res) => {
   try {
     const persona = await models.Persona.findOne({
-            where: { rfc: req.params.id }
+            where: { id: req.params.id }
         });
 
     // Find and delete dependent rows in the propietarios and arrendatarios table

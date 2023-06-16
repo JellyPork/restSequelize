@@ -24,7 +24,7 @@ app.use(passport.initialize());
 // Configurar CORS con opciones personalizadas
 app.use(cors({
   origin: 'http://localhost:8000', // Reemplaza esto con tu URL de frontend permitida
-  allowedHeaders: ['Content-Type', 'Authorization'] // Reemplaza esto con los encabezados personalizados permitidos
+  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'] // Reemplaza esto con los encabezados personalizados permitidos
 }));
 
 // Rutas protegidas con autenticación
